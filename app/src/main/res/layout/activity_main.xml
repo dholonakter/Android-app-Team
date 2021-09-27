@@ -4,9 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:rotationX="0"
-    tools:context=".MainActivity" >
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        >
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/rounded"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@mipmap/avatar_round" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="displayName"
+        android:textSize="28dp"
+        android:layout_marginTop="180dp"
+        android:textStyle="bold"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:color="@color/purple_500" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="270dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_person"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First Name"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:layout_marginLeft="5dp"
+            />
+
+    </LinearLayout>
+
 
 </RelativeLayout>
