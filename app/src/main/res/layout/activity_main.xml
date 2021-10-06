@@ -1,183 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="horizontal">
 
-    <include layout="@layout/toolbar" />
-
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabBar"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="15dp"
-        >
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/rounded"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:scaleType="centerCrop"
-        tools:srcCompat="@mipmap/avatar_round" />
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="displayName"
-        android:textSize="28dp"
-        android:layout_marginTop="180dp"
-        android:textStyle="bold"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:color="@color/purple_500" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_person"/>
-        <TextView
+        android:layout_marginRight="1dp"
+    >
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="First Name"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="5dp"
-            />
-        <TextView
+            android:id="@+id/tabPeople"
+            android:text="People" />
+
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="firstName"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="20dp"
-            />
+            android:id="@+id/tabSchedule"
+            android:text="Schedule" />
+    </com.google.android.material.tabs.TabLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="310dp"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_person"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Last Name"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="lastName"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="20dp"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="350dp"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_email"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="email address"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="62dp"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="390dp"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_phone"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Phone"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="phone number"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:layout_marginLeft="55dp"
-            />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="600dp"
-        android:text="My Schedule"
-        android:layout_centerHorizontal="true"/>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 
 
-</RelativeLayout>
+</LinearLayout>
