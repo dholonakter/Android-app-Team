@@ -34,8 +34,8 @@ public class PeopleFragment extends Fragment {
         for (int i = 0; i < allPeople.length(); i++) {
             allPeopleNames.add(allPeople.getString(i));
         }
-        ListViewAdapter listViewAdapter= new ListViewAdapter(MainActivity.getInstance(), allPeopleNames);
-        listView.setAdapter(listViewAdapter);
+//        ListViewAdapter listViewAdapter= new ListViewAdapter(MainActivity.getInstance(), allPeopleNames);
+//        listView.setAdapter(listViewAdapter);
     }
 
 }
