@@ -1,24 +1,41 @@
 package com.example.myapplication;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
 
 public class PeopleFragment extends Fragment {
 
-    String[] personName = {"aaaaaaaaa", "bbbbbbbbb", "cccccccccc" };
-    String[] personEmail = {"aaaa email", "bbbbb email", "ccccc email"};
-    Integer[] personImage = {R.drawable.ic_baseline_email, R.drawable.ic_baseline_email, R.drawable.ic_baseline_email};
-
-
+    private ListView listView;
+    TypedArray allPeople;
+    ArrayList<String> allPeopleNames = new ArrayList<>();
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        //Returning the layout file after inflating
-        //Change R.layout.tab1 in you classes
-        return inflater.inflate(R.layout.adapter_row, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_people, null);
+        getAllWidgets(rootView);
+        setAdapter();
+        return rootView;
+    }
+    private void getAllWidgets(View view) {
+        listView = (ListView) view.findViewById(R.id.listPeople);
+        allPeople = getResources().obtainTypedArray(R.array.people);
+    }
+    private void setAdapter()
+    {
+        for (int i = 0; i < allPeople.length(); i++) {
+            allPeopleNames.add(allPeople.getString(i));
+        }
+        ListViewAdapter listViewAdapter= new ListViewAdapter(MainActivity.getInstance(), allPeopleNames);
+        listView.setAdapter(listViewAdapter);
     }
 
 }
