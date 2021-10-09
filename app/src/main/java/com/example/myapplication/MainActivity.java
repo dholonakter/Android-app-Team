@@ -1,22 +1,19 @@
 package com.example.myapplication;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Bundle;
-import android.widget.ListView;
-import android.app.Fragment;
-
-
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
+    //This is our tablayout
     private TabLayout tabLayout;
+
+    //This is our viewPager
     private ViewPager viewPager;
 
     @Override
@@ -24,33 +21,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabLayout = findViewById(R.id.tabBar);
-        viewPager = findViewById(R.id.viewPager);
+        //Initializing the tablayout
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        tabLayout.setupWithViewPager(viewPager);
+        //Adding the tabs using addTab() method
+        tabLayout.addTab(tabLayout.newTab().setText("People"));
+        tabLayout.addTab(tabLayout.newTab().setText("Schedule"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        PagerAdapter pagerAdapter = new
-                PagerAdapter(getSupportFragmentManager(),
-                    FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        //Initializing viewPager
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        pagerAdapter.addFragment(new PeopleFragment(), "People");
-        viewPager.setAdapter(pagerAdapter);
+        //Creating our pager adapter
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        //Adding adapter to pager
+        viewPager.setAdapter(adapter);
 
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+        //Adding onTabSelectedListener to swipe views
+        tabLayout.setOnTabSelectedListener(this);
+    }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        viewPager.setCurrentItem(tab.getPosition());
+    }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
 
-            }
-        });
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 }

@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabBar"
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -33,6 +33,5 @@
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp" />
-
 
 </LinearLayout>

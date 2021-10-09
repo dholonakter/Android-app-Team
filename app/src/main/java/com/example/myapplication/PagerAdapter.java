@@ -1,41 +1,40 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import java.util.ArrayList;
+public class PagerAdapter extends FragmentStatePagerAdapter {
 
-public class PagerAdapter extends FragmentPagerAdapter {
+    //integer to count number of tabs
+    int tabCount;
 
-    private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-    private final ArrayList<String> fragmentTitle = new ArrayList<>();
-
-    public PagerAdapter(FragmentManager fm, int behaviour){
-        super(fm, behaviour);
+    //Constructor to the class
+    public PagerAdapter(FragmentManager fm, int tabCount) {
+        super(fm);
+        //Initializing tab count
+        this.tabCount= tabCount;
     }
 
-    @NonNull
+    //Overriding method getItem
     @Override
     public Fragment getItem(int position) {
-        return fragmentArrayList.get(position);
+        //Returning the current tabs
+        switch (position) {
+            case 0:
+                PeopleFragment person = new PeopleFragment();
+                return person;
+            case 1:
+                PeopleFragment pp = new PeopleFragment();
+                return pp;
+            default:
+                return null;
+        }
     }
 
+    //Overriden method getCount to get the number of tabs
     @Override
     public int getCount() {
-        return fragmentArrayList.size();
-    }
-
-    public void addFragment(Fragment fragment, String title){
-        fragmentArrayList.add(fragment);
-        fragmentTitle.add(title);
-    }
-
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position){
-        return fragmentTitle.get(position);
+        return tabCount;
     }
 }
