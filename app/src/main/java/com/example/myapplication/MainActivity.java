@@ -5,10 +5,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
-import com.TokenFragment;
-import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,11 +15,11 @@ import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements TokenFragment.OnFragmentInteractionListener {
 
-    public static MainActivity instance;
-    private PagerAdapter adapter;
-    private PeopleFragment peopleFragment;
-    private ViewPager viewPager;
-    private TabLayout allTabs;
+//    public static MainActivity instance;
+//    private PagerAdapter adapter;
+//    private PeopleFragment peopleFragment;
+//    private ViewPager viewPager;
+//    private TabLayout allTabs;
     private TextView tv;
     private String token;
 
@@ -31,11 +27,12 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tv = findViewById(R.id.textView1);
 //        instance=this;
 //        getAllWidgets();
 //        setupViewPager();
     }
-
+//
 //    public static MainActivity getInstance() {
 //        return instance;
 //    }
@@ -62,10 +59,9 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
     }
     public class JSONTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... params){
-            URL url = null;
             String s = null;
             try {
-                url = new URL("https://api.fhict.nl/people");
+                URL url = new URL("https://api.fhict.nl/people");
                 HttpURLConnection connection = null;
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Accept", "application/json");
@@ -82,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
 
         protected void onPostExecute(String s){
             super.onPostExecute(s);
-            TextView tv = findViewById(R.id.textView1);
             tv.setText(s);
         }
     }

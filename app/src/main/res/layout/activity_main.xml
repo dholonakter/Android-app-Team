@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="422dp"
-        android:layout_height="144dp"
-        android:text="@string/hello" />
+        android:layout_width="416dp"
+        android:layout_height="471dp"
+        android:text="@string/hello"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/token"
-        android:name="com.TokenFragment"
-        android:layout_width="match_parent"
-        android:layout_height="57dp" />
-
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tabs"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:tabGravity="fill"-->
-<!--        app:tabMode="fixed"-->
-<!--        tools:ignore="SpeakableTextPresentCheck"></com.google.android.material.tabs.TabLayout>-->
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
+        android:name="com.example.myapplication.TokenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:ignore="SpeakableTextPresentCheck">
+        app:layout_constraintTop_toTopOf="@+id/textView1"
+        tools:ignore="MissingConstraints"
+        tools:layout="@layout/fragment_token"
+        tools:layout_editor_absoluteX="5dp" />
 
-    </androidx.viewpager.widget.ViewPager>
+    <!--    <com.google.android.material.tabs.TabLayout-->
+    <!--        android:id="@+id/tabs"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:tabGravity="fill"-->
+    <!--        app:tabMode="fixed"-->
+    <!--        tools:ignore="SpeakableTextPresentCheck">-->
+    <!--    </com.google.android.material.tabs.TabLayout>-->
 
-</LinearLayout>
+    <!--    <androidx.viewpager.widget.ViewPager-->
+    <!--        android:id="@+id/viewpager"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--        tools:ignore="SpeakableTextPresentCheck">-->
+
+    <!--    </androidx.viewpager.widget.ViewPager>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

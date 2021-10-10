@@ -1,4 +1,4 @@
-package com;
+package com.example.myapplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,8 +12,6 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import androidx.fragment.app.Fragment;
-
-import com.example.myapplication.R;
 
 public class TokenFragment extends Fragment {
 
