@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
 //        viewPager.setAdapter(adapter);
 //        allTabs.setupWithViewPager(viewPager);
 //    }
-
     @Override
     public void onFragmentInteraction(String token) {
         this.token = token;
