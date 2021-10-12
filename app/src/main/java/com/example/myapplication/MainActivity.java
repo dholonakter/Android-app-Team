@@ -5,21 +5,30 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity implements TokenFragment.OnFragmentInteractionListener {
 
-//    public static MainActivity instance;
-//    private PagerAdapter adapter;
-//    private PeopleFragment peopleFragment;
-//    private ViewPager viewPager;
-//    private TabLayout allTabs;
+    private FragmentAdapter adapter;
+    private ViewPager2 pager2;
+    private TabLayout tabLayout;
+
     private TextView tv;
     private String token;
 
@@ -27,41 +36,58 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv = findViewById(R.id.textView1);
-//        instance=this;
-//        getAllWidgets();
-//        setupViewPager();
+        tv = (TextView) findViewById(R.id.tv1);
     }
-//
-//    public static MainActivity getInstance() {
-//        return instance;
-//    }
-//    private void getAllWidgets() {
-//        viewPager = (ViewPager) findViewById(R.id.viewpager);
-//        allTabs = (TabLayout) findViewById(R.id.tabs);
-//    }
-//    private void setupViewPager() {
-//        adapter = new PagerAdapter(getSupportFragmentManager());
-//        peopleFragment = new PeopleFragment();
-//        adapter.addFragment(peopleFragment, "People");
-//        setViewPageAdapter();
-//    }
-//    private void setViewPageAdapter() {
-//        viewPager.setAdapter(adapter);
-//        allTabs.setupWithViewPager(viewPager);
-//    }
 
     @Override
     public void onFragmentInteraction(String token) {
+
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        pager2 = (ViewPager2) findViewById(R.id.view_pager2);
+
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new FragmentAdapter(fm, getLifecycle());
+        pager2.setAdapter(adapter);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Schedule"));
+        tabLayout.addTab(tabLayout.newTab().setText("People"));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
         this.token = token;
         new JSONTask().execute(token);
 
     }
     public class JSONTask extends AsyncTask<String, Void, String> {
+
         protected String doInBackground(String... params){
-            String s = null;
+            URL url = null;
+            String s = "";
+            List<Person> result = new ArrayList<>();
             try {
-                URL url = new URL("https://api.fhict.nl/people");
+                url = new URL("https://api.fhict.nl/people");
                 HttpURLConnection connection = null;
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Accept", "application/json");
@@ -70,15 +96,34 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
                 InputStream is = connection.getInputStream();
                 Scanner scn = new Scanner(is);
                 s = scn. useDelimiter("\\Z").next();
+
+                JSONArray people = new JSONArray(s);
+
+                for(int idx = 0; idx < people.length(); idx++){
+                    JSONObject onePerson = people.getJSONObject(idx);
+
+                    String givenName = onePerson.getString("givenName");
+                    String surName = onePerson.getString("surName");
+                    String initials = onePerson.getString("initials");
+                    String mail = onePerson.getString("mail");
+                    String telephoneNumber = onePerson.getString("telephoneNumber");
+
+                    // add new person to list
+//                    result.add(new Person(givenName, surName, initials, mail, telephoneNumber));
+                }
+
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return s;
         }
 
-        protected void onPostExecute(String s){
-            super.onPostExecute(s);
-            tv.setText(s);
+        @Override
+        protected void onPostExecute(String dataFetched){
+            super.onPostExecute(dataFetched);
+            tv.setText(dataFetched);
         }
     }
 }
