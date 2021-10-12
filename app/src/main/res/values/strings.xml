@@ -2,15 +2,4 @@
     <string name="app_name">My Application</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hello">Hello</string>
-    <string-array name="people">
-<!--        <item>Mehul Rughani</item>-->
-<!--        <item>Tejas Jasani</item>-->
-<!--        <item>Ravi Gadesha</item>-->
-<!--        <item>Ravi Soneji</item>-->
-<!--        <item>Bharat Mamtora</item>-->
-<!--        <item>Vivek Tank</item>-->
-<!--        <item>Parth Trivedi</item>-->
-<!--        <item>Hardik Trivedi</item>-->
-    </string-array>
 </resources>

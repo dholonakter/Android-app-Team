@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,33 +8,35 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-
 public class PeopleFragment extends Fragment {
 
-    private ListView listView;
-    TypedArray allPeople;
-    ArrayList<String> allPeopleNames = new ArrayList<>();
+    private View convertView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_people, null);
-        getAllWidgets(rootView);
-        setAdapter();
-        return rootView;
-    }
-    private void getAllWidgets(View view) {
-        listView = (ListView) view.findViewById(R.id.listPeople);
-        allPeople = getResources().obtainTypedArray(R.array.people);
-    }
-    private void setAdapter()
-    {
-        for (int i = 0; i < allPeople.length(); i++) {
-            allPeopleNames.add(allPeople.getString(i));
+        if (convertView == null) {
+            // if it is new, initialise it using 'fragment_json' layout
+            // Inflate the layout for this fragment
+            convertView = inflater.inflate(R.layout.fragment_people, container, false);
         }
-//        ListViewAdapter listViewAdapter= new ListViewAdapter(MainActivity.getInstance(), allPeopleNames);
-//        listView.setAdapter(listViewAdapter);
+
+        ListView listView = convertView.findViewById(R.id.lview1);
+
+        return convertView;
     }
+//    private void getAllWidgets(View view) {
+//        listView = (ListView) view.findViewById(R.id.listPeople);
+//        allPeople = getResources().obtainTypedArray(R.array.people);
+//    }
+//    private void setAdapter()
+//    {
+//        for (int i = 0; i < allPeople.length(); i++) {
+//            allPeopleNames.add(allPeople.getString(i));
+//        }
+//        PeopleListViewAdapter listViewAdapter= new PeopleListViewAdapter(MainActivity.getInstance(), al);
+//        listView.setAdapter(listViewAdapter);
+//    }
 
 }

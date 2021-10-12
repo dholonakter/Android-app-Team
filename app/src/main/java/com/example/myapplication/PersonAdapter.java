@@ -7,13 +7,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagerAdapter extends FragmentPagerAdapter {
+public class PersonAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList;
     private final List<String> mFragmentTitleList;
 
     //Constructor to the class
-    public PagerAdapter(FragmentManager fm) {
+    public PersonAdapter(FragmentManager fm) {
         super(fm);
         mFragmentList = new ArrayList<>();
         mFragmentTitleList = new ArrayList<>();
