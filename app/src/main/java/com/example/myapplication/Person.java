@@ -1,47 +1,27 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-
 public class Person {
-    String givenName;
-    String surName;
-    String initials;
-    String mail;
-    String telephoneNumber;
-
-    public Person(String givenName, String surName, String initials, String mail, String telephoneNumber) {
-        this.givenName = givenName;
-        this.surName = surName;
-        this.initials = initials;
-        this.mail = mail;
-        this.telephoneNumber = telephoneNumber;
+    private String name,id;
+    public Person(String name, String id) {
+        this.name = name;
+        this.id = id;
     }
 
-    public String getGivenName() {
-        return givenName;
+    public String getName() {
+        return name;
     }
 
-    public String getSurName() {
-        return surName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getInitials() {
-        return initials;
+    public String getId() {
+        return id;
     }
 
-    public String getMail() {
-        return mail;
-    }
-
-    public String getTelephoneNumber() {
-        return telephoneNumber;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return givenName + " " + surName + " " +
-                initials + " " + mail + " " + telephoneNumber;
+    public void setId(String id) {
+        this.id = id;
     }
 }
+
 

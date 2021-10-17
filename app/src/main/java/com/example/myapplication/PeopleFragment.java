@@ -1,59 +1,41 @@
 package com.example.myapplication;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 public class PeopleFragment extends Fragment {
 
-    private View convertView;
-
-    public PeopleFragment() {
-        // Required empty public constructor
-    }
-
-    public static PeopleFragment newInstance(String param1, String param2) {
-        PeopleFragment fragment = new PeopleFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-
+    private ListView listView;
+    TypedArray allPeople;
+    ArrayList<String> allPeopleNames = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (convertView == null) {
-            // if it is new, initialise it using 'fragment_json' layout
-            // Inflate the layout for this fragment
-            convertView = inflater.inflate(R.layout.fragment_people, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_people, null);
+        getAllWidgets(rootView);
+        setAdapter();
+        return rootView;
+    }
+    private void getAllWidgets(View view) {
+        listView = (ListView) view.findViewById(R.id.listPeople);
+        allPeople = getResources().obtainTypedArray(R.array.people);
+    }
+    private void setAdapter()
+    {
+        for (int i = 0; i < allPeople.length(); i++) {
+            allPeopleNames.add(allPeople.getString(i));
         }
-
-        ListView listView = convertView.findViewById(R.id.lview1);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                Object o = listView.getItemAtPosition(position);
-                Person person = (Person) o;
-                String telephoneNumber = person.telephoneNumber;
-                Log.d("TELEPHONE NUMBER", telephoneNumber);
-            }
-        });
-
-        return convertView;
+//        ListViewAdapter listViewAdapter= new ListViewAdapter(MainActivity.getInstance(), allPeopleNames);
+//        listView.setAdapter(listViewAdapter);
     }
 
 }
