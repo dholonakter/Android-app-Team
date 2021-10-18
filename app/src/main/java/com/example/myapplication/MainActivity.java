@@ -2,13 +2,18 @@ package com.example.myapplication;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,117 +22,105 @@ import java.net.URL;
 import java.util.Scanner;
 
 
-public class MainActivity extends AppCompatActivity implements TokenFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements TokenFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
-    //    public static MainActivity instance;
-//    private PagerAdapter adapter;
-//    private PeopleFragment peopleFragment;
-//    private ViewPager viewPager;
-//    private TabLayout allTabs;
-    private TextView tv;
-    private String token, people, calendar;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    NavigationView navigationView;
+    private String token;
     String scheduleJsonString, peopleJsonString;
     String peopleURL ="https://api.fhict.nl/people";
     String scheduleURL ="https://api.fhict.nl/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnPeople = findViewById(R.id.btnPeople);
-        btnPeople.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragMgr = getSupportFragmentManager();
-                FragmentTransaction fragTrans = fragMgr.beginTransaction();
-                PeopleFragment peopleFragment = new PeopleFragment();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.navigationView);
 
-                Bundle bundle=new Bundle();
-                bundle.putString("peopleJsonString", peopleJsonString);
-                peopleFragment.setArguments(bundle);
+        navigationView.setNavigationItemSelectedListener(this);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
 
-                fragTrans.add(R.id.fragment_container, peopleFragment, "PEOPLE");
-                fragTrans.commit();
-            }
-        });
+        // login form as first fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        TokenFragment tokenFragment = new TokenFragment();
-//        fragmentTransaction.replace(R.id.fragment_container, tokenFragment, "LOGIN");
+        TokenFragment tokenFragment = new TokenFragment();
+        fragmentTransaction.replace(R.id.fragment_container, tokenFragment, "LOGIN");
         fragmentTransaction.commit();
+
     }
-//
-//    public static MainActivity getInstance() {
-//        return instance;
-//    }
-//    private void getAllWidgets() {
-//        viewPager = (ViewPager) findViewById(R.id.viewpager);
-//        allTabs = (TabLayout) findViewById(R.id.tabs);
-//    }
-//    private void setupViewPager() {
-//        adapter = new PagerAdapter(getSupportFragmentManager());
-//        peopleFragment = new PeopleFragment();
-//        adapter.addFragment(peopleFragment, "People");
-//        setViewPageAdapter();
-//    }
-//    private void setViewPageAdapter() {
-//        viewPager.setAdapter(adapter);
-//        allTabs.setupWithViewPager(viewPager);
-//    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+        if(token == null){return false;}
+        if (item.getItemId() == R.id.itemPeople) {
+            FragmentManager fragMgr = getSupportFragmentManager();
+            FragmentTransaction fragTrans = fragMgr.beginTransaction();
+            PeopleFragment peopleFragment = new PeopleFragment();
+
+            Bundle bundle=new Bundle();
+            bundle.putString("peopleJsonString", peopleJsonString);
+            peopleFragment.setArguments(bundle);  //https://stackoverflow.com/questions/45540721/passing-json-response-data-from-an-activity-to-a-fragment-in-android
+
+            fragTrans.replace(R.id.fragment_container, peopleFragment, "PEOPLE");
+            fragTrans.commit();
+        }
+        else if (item.getItemId() == R.id.itemNews) {
+
+        }
+        return true;
+    }
 
     @Override
     public void onFragmentInteraction(String token) {
-        this.token = token;
+        token = token;
         new JSONTask().execute(token, "people");
 
     }
+
     public class JSONTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings){
-            if(strings[1] == "schedule")
+            if(strings[1].equals("schedule"))
             {
                 return scheduleJsonString = GetJsonDataByURL(scheduleURL);
             }
-            if(strings[1] == "people"){
+            if(strings[1].equals("people")){
                 return peopleJsonString = GetJsonDataByURL(peopleURL);
             }
             return "";
 
 
         }
-        private String GetJsonDataByURL(String URL){
-            String s = null;
-            try {
-                URL url = new URL("https://api.fhict.nl/");
-                HttpURLConnection connection = null;
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Accept", "application/json");
-                connection.setRequestProperty("Authorization", "Bearer " + token);
-                connection.connect();
-                InputStream is = connection.getInputStream();
-                Scanner scn = new Scanner(is);
-                s = scn.useDelimiter("\\Z").next();
-                is.close();
-                connection.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return s;
-        }
 
-        protected void onPostExecute(String s){
-            super.onPostExecute(s);
-//            Intent intent = new Intent(MainActivity.this, TabBarActivity.class);
-//            intent.putExtra("people", people);
-//            intent.putExtra("calendar", calendar);
-//            startActivity(intent);
-            if(s!=null){
-                // Do you work here on success
-            }else{
-                // null response or Exception occur
-            }
+    }
+    private String GetJsonDataByURL(String URL){
+        String s = null;
+        try {
+            URL url = new URL("https://api.fhict.nl/");
+            HttpURLConnection connection = null;
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + token);
+            connection.connect();
+            InputStream is = connection.getInputStream();
+            Scanner scn = new Scanner(is);
+            s = scn.useDelimiter("\\Z").next();
+            is.close();
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
+        return s;
     }
 }

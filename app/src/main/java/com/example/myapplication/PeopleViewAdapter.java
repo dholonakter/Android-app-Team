@@ -7,46 +7,53 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PeopleViewAdapter extends BaseAdapter {
 
-    private ArrayList<String> allPeople;
+    private List<People> peopleList;
+    private LayoutInflater layoutInflater;
     private Context context;
-    private LayoutInflater inflater;
-    public PeopleViewAdapter(Context context, ArrayList<String> allPeople) {
-        inflater = LayoutInflater.from(context);
-        this.context = context;
-        this.allPeople = allPeople;
-    }
 
-    public void setAllPeople(ArrayList<String> allPeople) {
-        this.allPeople = allPeople;
+    public PeopleViewAdapter(Context context, List<People> peopleData) {
+        this.context = context;
+        this.peopleList = peopleData;
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return allPeople.size();
+        return peopleList.size();
     }
     @Override
     public Object getItem(int position) {
-        return allPeople.get(position);
+        return peopleList.get(position);
     }
     @Override
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            view = inflater.inflate(R.layout.person_inflater, parent, false);
-
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.person_inflater, null);
+            holder = new ViewHolder();
+            holder.fullNameView = (TextView) convertView.findViewById(R.id.tbFullName);
+            holder.mailView = (TextView) convertView.findViewById(R.id.tbEmail);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        TextView tvPersonName = (TextView) view.findViewById(R.id.tvPersonName);
-        TextView tvPersonNumber = (TextView) view.findViewById(R.id.tvPersonNumber);
-        tvPersonName.setText(allPeople.get(position));
-        tvPersonNumber.setText((position+1)+"");
-        return view;
+        People people = this.peopleList.get(position);
+        holder.fullNameView.setText(people.getDisplayName());
+        holder.mailView.setText(people.getMail());
+        return convertView;
+    }
+
+    static class ViewHolder {
+        TextView fullNameView;
+        TextView mailView;
     }
 }
