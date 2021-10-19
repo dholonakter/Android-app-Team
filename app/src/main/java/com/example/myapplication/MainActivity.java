@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
-    private String token;
+    String tokenValue;
     String scheduleJsonString, peopleJsonString;
     String peopleURL ="https://api.fhict.nl/people";
     String scheduleURL ="https://api.fhict.nl/";
@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
-        if(token == null){return false;}
+        if(tokenValue == null){
+            return false;
+        }
         if (item.getItemId() == R.id.itemPeople) {
             FragmentManager fragMgr = getSupportFragmentManager();
             FragmentTransaction fragTrans = fragMgr.beginTransaction();
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
             fragTrans.replace(R.id.fragment_container, peopleFragment, "PEOPLE");
             fragTrans.commit();
         }
-        else if (item.getItemId() == R.id.itemNews) {
+        else if (item.getItemId() == R.id.itemSchedule) {
 
         }
         return true;
@@ -83,35 +85,19 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
 
     @Override
     public void onFragmentInteraction(String token) {
-        token = token;
+        tokenValue = token;
         new JSONTask().execute(token, "people");
 
     }
-
-    public class JSONTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings){
-            if(strings[1].equals("schedule"))
-            {
-                return scheduleJsonString = GetJsonDataByURL(scheduleURL);
-            }
-            if(strings[1].equals("people")){
-                return peopleJsonString = GetJsonDataByURL(peopleURL);
-            }
-            return "";
-
-
-        }
-
-    }
     private String GetJsonDataByURL(String URL){
+        URL url = null;
         String s = null;
         try {
-            URL url = new URL("https://api.fhict.nl/");
+            url = new URL(URL);
             HttpURLConnection connection = null;
-            connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection)url.openConnection();
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Authorization", "Bearer " + token);
+            connection.setRequestProperty("Authorization", "Bearer " + tokenValue); // strings[0] will be token
             connection.connect();
             InputStream is = connection.getInputStream();
             Scanner scn = new Scanner(is);
@@ -122,5 +108,20 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
             e.printStackTrace();
         }
         return s;
+    }
+    private class JSONTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings){
+            if(strings[1] == "schedule")
+            {
+                return scheduleJsonString = GetJsonDataByURL(scheduleURL);
+            }
+            if(strings[1] == "people"){
+                return peopleJsonString = GetJsonDataByURL(peopleURL);
+            }
+            return "";
+
+        }
+
     }
 }

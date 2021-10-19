@@ -79,10 +79,10 @@ public class PeopleFragment extends Fragment {
             // get all elements from the JSONArray, and put into ArrayList of NewsEntry objects
             for (int i = 0; i < jsonArray.length(); i++) {
                 // each array element is an object
-                JSONObject newsObject = jsonArray.getJSONObject(i);
-                String id = newsObject.getString("id");
-                String displayName = newsObject.getString("displayName");
-                String mail = newsObject.getString("mail");
+                JSONObject pObject = jsonArray.getJSONObject(i);
+                String id = pObject.getString("id");
+                String displayName = pObject.getString("displayName");
+                String mail = pObject.getString("mail");
                 peopleList.add(new People(id, displayName, mail));
             }
 

@@ -15,10 +15,10 @@ public class PeopleViewAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public PeopleViewAdapter(Context context, List<People> peopleData) {
-        this.context = context;
+    public PeopleViewAdapter(Context acontext, List<People> peopleData) {
+        this.context = acontext;
         this.peopleList = peopleData;
-        layoutInflater = LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(acontext);
     }
 
     @Override
