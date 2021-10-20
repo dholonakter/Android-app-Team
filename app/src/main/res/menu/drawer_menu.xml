@@ -8,5 +8,7 @@
         android:visible="true" />
     <item
         android:id="@+id/itemSchedule"
-        android:title="@string/schedulebtn" />
+        android:title="@string/schedulebtn"
+        android:enabled="true"
+        android:visible="true"/>
 </menu>

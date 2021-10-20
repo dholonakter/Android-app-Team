@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
     String tokenValue;
     String scheduleJsonString, peopleJsonString;
     String peopleURL ="https://api.fhict.nl/people";
-    String scheduleURL ="https://api.fhict.nl/";
+    String scheduleURL ="https://api.fhict.nl/schedule/weeks";
 
 
     @Override
@@ -78,7 +78,16 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
             fragTrans.commit();
         }
         else if (item.getItemId() == R.id.itemSchedule) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            ScheduleFragment scheduleFragment = new ScheduleFragment();
 
+            Bundle bundle=new Bundle();
+            bundle.putString("scheduleJsonString", scheduleJsonString);
+            scheduleFragment.setArguments(bundle);
+
+            fragmentTransaction.replace(R.id.fragment_container, scheduleFragment, "SCHEDULE");
+            fragmentTransaction.commit();
         }
         return true;
     }
@@ -87,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
     public void onFragmentInteraction(String token) {
         tokenValue = token;
         new JSONTask().execute(token, "people");
-
+        new JSONTask().execute(token, "schedule");
     }
     private String GetJsonDataByURL(String URL){
         URL url = null;
@@ -120,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements TokenFragment.OnF
                 return peopleJsonString = GetJsonDataByURL(peopleURL);
             }
             return "";
-
         }
 
     }

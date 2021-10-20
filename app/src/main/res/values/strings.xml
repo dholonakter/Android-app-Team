@@ -10,4 +10,8 @@
     <string name="tbEmail">people_Email</string>
     <string name="full_name">Full Name</string>
     <string name="URL">URL: </string>
+    <string name="welcome_to_the_fhict_companion_application">Welcome to the FHICT Companion Application</string>
+    <string name="title">Title</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
 </resources>
